@@ -1,0 +1,140 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PROTEZA NUTRI HUB</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:#080b09;color:white;font-family:Arial,sans-serif}
+nav{padding:18px;display:flex;justify-content:space-between;align-items:center;background:#111811;position:sticky;top:0;z-index:5}
+.logo{font-weight:900;color:#a8ff45;font-size:19px}
+nav a{color:#a8ff45;text-decoration:none}
+.hero{padding:75px 22px;background:linear-gradient(135deg,#203321,#080b09)}
+.hero small{color:#a8ff45;letter-spacing:3px}
+.hero h1{font-size:52px;margin:22px 0;line-height:1.05}
+.hero h1 span{color:#a8ff45}
+.hero p{color:#ccc;margin-bottom:25px}
+.btn{display:inline-block;background:#a8ff45;color:#080b09;padding:14px 20px;border-radius:5px;text-decoration:none;font-weight:bold}
+section{padding:38px 18px}
+h2{margin-bottom:22px}
+.products{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.product{background:#151d16;border:1px solid #354235;border-radius:12px;padding:12px}
+.pic{height:125px;background:#253126;border-radius:8px;display:grid;place-items:center;font-size:48px}
+.product h3{font-size:16px;margin:12px 0}
+.price{color:#a8ff45;font-weight:bold;margin-bottom:12px}
+button{background:#a8ff45;color:#080b09;border:0;border-radius:5px;padding:12px;font-weight:bold}
+.product button{width:100%}
+.cart{margin:15px;background:#151d16;padding:20px;border-radius:12px}
+.cart-item{display:flex;justify-content:space-between;gap:8px;padding:12px 0;border-bottom:1px solid #333}
+.cart-item button{padding:6px}
+#total{color:#a8ff45;margin:18px 0}
+.cart>button{width:100%;padding:15px}
+.about{color:#bbb;line-height:1.7}
+footer{text-align:center;color:#999;padding:25px;border-top:1px solid #333}
+@media(min-width:650px){
+.products{grid-template-columns:repeat(4,1fr)}
+.hero{padding:110px 10%}
+.hero h1{font-size:75px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+<div class="logo">PROTEZA NUTRI HUB</div>
+<a href="#cart">🛒 CART (<span id="count">0</span>)</a>
+</nav>
+
+<header class="hero">
+<small>PREMIUM SPORTS NUTRITION</small>
+<h1>FUEL YOUR<br><span>FITNESS.</span></h1>
+<p>Build strength. Build confidence.</p>
+<a href="#products" class="btn">SHOP NOW →</a>
+</header>
+
+<section id="products">
+<h2>OUR PRODUCTS</h2>
+<div class="products" id="productList"></div>
+</section>
+
+<section class="about">
+<h2>ABOUT US</h2>
+<p>Welcome to PROTEZA NUTRI HUB. Your destination for sports nutrition and fitness accessories. Explore our products and contact us to order.</p>
+</section>
+
+<div class="cart" id="cart">
+<h2>YOUR CART</h2>
+<div id="cartItems">Your cart is empty.</div>
+<h3 id="total">Price: Confirm with shop</h3>
+<button onclick="checkout()">ORDER ON WHATSAPP</button>
+</div>
+
+<footer>© 2026 PROTEZA NUTRI HUB</footer>
+
+<script>
+// EDIT PRODUCTS AND PRICES HERE
+const products=[
+{name:"Whey Protein",price:null,icon:"🥤"},
+{name:"Creatine",price:null,icon:"💪"},
+{name:"Mass Gainer",price:null,icon:"🏋️"},
+{name:"Gym Accessories",price:null,icon:"🎒"}
+];
+
+// ADD YOUR WHATSAPP NUMBER LATER
+const whatsappNumber="";
+
+let cart=[];
+
+function showProducts(){
+document.getElementById("productList").innerHTML=
+products.map((p,i)=>`
+<div class="product">
+<div class="pic">${p.icon}</div>
+<h3>${p.name}</h3>
+<div class="price">${p.price===null?"Price on request":"₹"+p.price}</div>
+<button onclick="addCart(${i})">ADD TO CART</button>
+</div>`).join("");
+}
+
+function addCart(i){
+cart.push(products[i]);
+updateCart();
+}
+
+function removeCart(i){
+cart.splice(i,1);
+updateCart();
+}
+
+function updateCart(){
+document.getElementById("count").innerText=cart.length;
+document.getElementById("cartItems").innerHTML=
+cart.length?cart.map((p,i)=>`
+<div class="cart-item">
+<span>${p.name}</span>
+<button onclick="removeCart(${i})">REMOVE</button>
+</div>`).join(""):"Your cart is empty.";
+document.getElementById("total").innerText="Price: Confirm with shop";
+}
+
+function checkout(){
+if(!cart.length){
+alert("Please add products first.");
+return;
+}
+if(!whatsappNumber){
+alert("WhatsApp number will be added later.");
+return;
+}
+let msg="Hello PROTEZA NUTRI HUB! My order:\n";
+cart.forEach(p=>msg+=p.name+"\n");
+window.open("https://wa.me/"+whatsappNumber+"?text="+encodeURIComponent(msg),"_blank");
+}
+
+showProducts();
+</script>
+</body>
+</html>
